@@ -50,7 +50,7 @@ namespace Serilog.Sinks.DiscordExtended
 
                     message = FormatMessage(message, 240);
 
-                    SpecifyEmbedLevel(logEvent.Level, embedBuilder);
+                    (embedBuilder.Title, embedBuilder.Color) = GetEmbedLevel(logEvent.Level);
 
                     embedBuilder.Description = message;
 
@@ -69,38 +69,17 @@ namespace Serilog.Sinks.DiscordExtended
                     .GetResult();
             }
         }
-        private static void SpecifyEmbedLevel(LogEventLevel level, EmbedBuilder embedBuilder)
+
+        private static (string title, Color color) GetEmbedLevel(LogEventLevel level) => level switch
         {
-            switch (level)
-            {
-                case LogEventLevel.Verbose:
-                    embedBuilder.Title = ":loud_sound: Verbose";
-                    embedBuilder.Color = Color.LightGrey;
-                    break;
-                case LogEventLevel.Debug:
-                    embedBuilder.Title = ":mag: Debug";
-                    embedBuilder.Color = Color.LightGrey;
-                    break;
-                case LogEventLevel.Information:
-                    embedBuilder.Title = ":information_source: Information";
-                    embedBuilder.Color = new Color(0, 186, 255);
-                    break;
-                case LogEventLevel.Warning:
-                    embedBuilder.Title = ":warning: Warning";
-                    embedBuilder.Color = new Color(255, 204, 0);
-                    break;
-                case LogEventLevel.Error:
-                    embedBuilder.Title = ":x: Error";
-                    embedBuilder.Color = new Color(255, 0, 0);
-                    break;
-                case LogEventLevel.Fatal:
-                    embedBuilder.Title = ":skull_crossbones: Fatal";
-                    embedBuilder.Color = Color.DarkRed;
-                    break;
-                default:
-                    break;
-            }
-        }
+            LogEventLevel.Verbose     => (":loud_sound: Verbose", Color.LightGrey),
+            LogEventLevel.Debug       => (":mag: Debug", Color.LightGrey),
+            LogEventLevel.Information => (":information_source: Information", new(0, 186, 255)),
+            LogEventLevel.Warning     => (":warning: Warning", new(255, 204, 0)),
+            LogEventLevel.Error       => (":x: Error", new(255, 0, 0)),
+            LogEventLevel.Fatal       => (":skull_crossbones: Fatal", Color.DarkRed),
+            _                         => throw new ArgumentOutOfRangeException(nameof(level), level, null)
+        };
 
         public static string FormatMessage(string message, int maxLenght)
         {
