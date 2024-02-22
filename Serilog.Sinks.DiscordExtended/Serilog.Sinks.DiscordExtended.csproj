@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <Authors>Abolfazl Edgelolli,kav128</Authors>
-    <Version>1.2.0</Version>
+    <Version>1.0.0</Version>
     <Company>Texnokaktus ProgOlymp</Company>
     <Product>Serilog Discord Extended Sink</Product>
     <NeutralLanguage>en</NeutralLanguage>
