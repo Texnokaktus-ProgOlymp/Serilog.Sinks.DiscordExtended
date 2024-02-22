@@ -34,8 +34,11 @@ namespace Serilog.Sinks.DiscordExtended
                     var message = FormatMessage(logEvent.Exception.Message, 1000);
                     embedBuilder.AddField("Message:", message);
 
-                    var stackTrace = FormatMessage(logEvent.Exception.StackTrace, 1000);
-                    embedBuilder.AddField("StackTrace:", stackTrace);
+                    if (logEvent.Exception.StackTrace is not null)
+                    {
+                        var stackTrace = FormatMessage(logEvent.Exception.StackTrace, 1000);
+                        embedBuilder.AddField("StackTrace:", stackTrace);
+                    }
 
                     webHook.SendMessageAsync(null, false, new Embed[] { embedBuilder.Build() })
                         .GetAwaiter()
