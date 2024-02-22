@@ -9,10 +9,12 @@ namespace Serilog.Sinks.DiscordExtended
                                                   ulong webhookId,
                                                   string webhookToken,
                                                   IFormatProvider? formatProvider = null,
-                                                  LogEventLevel restrictedToMinimumLevel = LogEventLevel.Verbose) =>
+                                                  LogEventLevel restrictedToMinimumLevel = LogEventLevel.Verbose,
+                                                  bool includeProperties = false) =>
             loggerConfiguration.Sink(new DiscordSink(formatProvider,
                                                      webhookId,
                                                      webhookToken,
-                                                     restrictedToMinimumLevel));
+                                                     restrictedToMinimumLevel,
+                                                     includeProperties));
     }
 }

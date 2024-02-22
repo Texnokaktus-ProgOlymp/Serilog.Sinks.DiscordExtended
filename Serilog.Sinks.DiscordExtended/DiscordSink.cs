@@ -8,7 +8,8 @@ namespace Serilog.Sinks.DiscordExtended
     public class DiscordSink(IFormatProvider? formatProvider,
                              ulong webhookId,
                              string webhookToken,
-                             LogEventLevel restrictedToMinimumLevel = LogEventLevel.Information) : ILogEventSink
+                             LogEventLevel restrictedToMinimumLevel = LogEventLevel.Information,
+                             bool includeProperties = false) : ILogEventSink
     {
         public void Emit(LogEvent logEvent)
         {
@@ -40,6 +41,9 @@ namespace Serilog.Sinks.DiscordExtended
                 }
 
                 (embedBuilder.Title, embedBuilder.Color) = GetEmbedLevel(logEvent.Level);
+                
+                if (includeProperties)
+                    foreach (var (key, value) in logEvent.Properties) embedBuilder.AddField(key, value);
 
                 webHook.SendMessageAsync(null, false, [embedBuilder.Build()])
                        .GetAwaiter()
