@@ -36,11 +36,7 @@ namespace Serilog.Sinks.DiscordExtended
                 }
                 else
                 {
-                    var message = logEvent.RenderMessage(formatProvider);
-
-                    message = FormatMessage(message, 240);
-
-                    embedBuilder.Description = message;
+                    embedBuilder.Description = FormatMessage(logEvent.RenderMessage(formatProvider), 240);
                 }
 
                 (embedBuilder.Title, embedBuilder.Color) = GetEmbedLevel(logEvent.Level);
