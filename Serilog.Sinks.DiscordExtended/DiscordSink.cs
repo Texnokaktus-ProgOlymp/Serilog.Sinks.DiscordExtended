@@ -12,37 +12,27 @@ namespace Serilog.Sinks.DiscordExtended
     {
         public void Emit(LogEvent logEvent)
         {
-            SendMessage(logEvent);
-        }
-
-        private void SendMessage(LogEvent logEvent)
-        {
             if (!ShouldLogMessage(restrictedToMinimumLevel, logEvent.Level))
                 return;
 
             var embedBuilder = new EmbedBuilder();
-            var webHook = new DiscordWebhookClient(webhookId, webhookToken);
+            using var webHook = new DiscordWebhookClient(webhookId, webhookToken);
 
             try
             {
-                if (logEvent.Exception != null)
+                if (logEvent.Exception is { } exception)
                 {
                     embedBuilder.Color = new Color(255, 0, 0);
-                    embedBuilder.WithTitle(":o: Exception");
-                    embedBuilder.AddField("Type:", $"```{logEvent.Exception.GetType().FullName}```");
+                    embedBuilder.AddField("Exception Type:", $"```{exception.GetType().FullName}```");
 
-                    var message = FormatMessage(logEvent.Exception.Message, 1000);
-                    embedBuilder.AddField("Message:", message);
+                    var message = FormatMessage(exception.Message, 1000);
+                    embedBuilder.AddField("Exception Message:", message);
 
-                    if (logEvent.Exception.StackTrace is not null)
+                    if (exception.StackTrace is not null)
                     {
-                        var stackTrace = FormatMessage(logEvent.Exception.StackTrace, 1000);
-                        embedBuilder.AddField("StackTrace:", stackTrace);
+                        var stackTrace = FormatMessage(exception.StackTrace, 1000);
+                        embedBuilder.AddField("Exception StackTrace:", stackTrace);
                     }
-
-                    webHook.SendMessageAsync(null, false, [embedBuilder.Build()])
-                           .GetAwaiter()
-                           .GetResult();
                 }
                 else
                 {
@@ -50,16 +40,15 @@ namespace Serilog.Sinks.DiscordExtended
 
                     message = FormatMessage(message, 240);
 
-                    (embedBuilder.Title, embedBuilder.Color) = GetEmbedLevel(logEvent.Level);
-
                     embedBuilder.Description = message;
-
-                    webHook.SendMessageAsync(null, false, [embedBuilder.Build()])
-                           .GetAwaiter()
-                           .GetResult();
                 }
-            }
 
+                (embedBuilder.Title, embedBuilder.Color) = GetEmbedLevel(logEvent.Level);
+
+                webHook.SendMessageAsync(null, false, [embedBuilder.Build()])
+                       .GetAwaiter()
+                       .GetResult();
+            }
             catch (Exception ex)
             {
                 webHook.SendMessageAsync($"ooo snap, {ex.Message}")
