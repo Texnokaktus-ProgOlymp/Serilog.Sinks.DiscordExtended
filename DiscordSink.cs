@@ -2,9 +2,8 @@
 using Discord.Webhook;
 using Serilog.Core;
 using Serilog.Events;
-using System;
 
-namespace Serilog.Sinks.Discord
+namespace Serilog.Sinks.DiscordExtended
 {
     public class DiscordSink : ILogEventSink
     {

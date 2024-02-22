@@ -1,8 +1,7 @@
-using System;
 using Serilog.Configuration;
 using Serilog.Events;
 
-namespace Serilog.Sinks.Discord
+namespace Serilog.Sinks.DiscordExtended
 {
     public static class DiscordSinkExtenstions
     {
