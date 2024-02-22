@@ -40,9 +40,9 @@ namespace Serilog.Sinks.DiscordExtended
                         embedBuilder.AddField("StackTrace:", stackTrace);
                     }
 
-                    webHook.SendMessageAsync(null, false, new Embed[] { embedBuilder.Build() })
-                        .GetAwaiter()
-                        .GetResult();
+                    webHook.SendMessageAsync(null, false, [embedBuilder.Build()])
+                           .GetAwaiter()
+                           .GetResult();
                 }
                 else
                 {
@@ -54,19 +54,17 @@ namespace Serilog.Sinks.DiscordExtended
 
                     embedBuilder.Description = message;
 
-                    webHook.SendMessageAsync(
-                        null, false, new Embed[] { embedBuilder.Build() })
-                        .GetAwaiter()
-                        .GetResult();
+                    webHook.SendMessageAsync(null, false, [embedBuilder.Build()])
+                           .GetAwaiter()
+                           .GetResult();
                 }
             }
 
             catch (Exception ex)
             {
-                webHook.SendMessageAsync(
-                    $"ooo snap, {ex.Message}", false)
-                    .GetAwaiter()
-                    .GetResult();
+                webHook.SendMessageAsync($"ooo snap, {ex.Message}")
+                       .GetAwaiter()
+                       .GetResult();
             }
         }
 
