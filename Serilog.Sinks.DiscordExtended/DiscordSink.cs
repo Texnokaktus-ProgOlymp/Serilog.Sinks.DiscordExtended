@@ -81,10 +81,10 @@ namespace Serilog.Sinks.DiscordExtended
             _                         => throw new ArgumentOutOfRangeException(nameof(level), level, null)
         };
 
-        public static string FormatMessage(string message, int maxLenght)
+        private static string FormatMessage(string message, int maxLength)
         {
-            if (message.Length > maxLenght)
-                message = $"{message.Substring(0, maxLenght)} ...";
+            if (message.Length > maxLength)
+                message = $"{message[..maxLength]} ...";
 
             if (!string.IsNullOrWhiteSpace(message))
                 message = $"```{message}```";
