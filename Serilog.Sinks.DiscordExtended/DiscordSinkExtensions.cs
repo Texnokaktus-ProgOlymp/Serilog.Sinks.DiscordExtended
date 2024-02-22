@@ -3,7 +3,7 @@ using Serilog.Events;
 
 namespace Serilog.Sinks.DiscordExtended
 {
-    public static class DiscordSinkExtenstions
+    public static class DiscordSinkExtensions
     {
         public static LoggerConfiguration Discord(this LoggerSinkConfiguration loggerConfiguration,
                                                   ulong webhookId,
