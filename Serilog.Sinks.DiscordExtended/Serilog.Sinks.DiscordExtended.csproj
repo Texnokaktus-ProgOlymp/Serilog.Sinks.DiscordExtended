@@ -12,6 +12,8 @@
     <PackageProjectUrl>https://github.com/Texnokaktus-ProgOlymp/Serilog.Sinks.DiscordExtended</PackageProjectUrl>
     <PackageIcon>SinkIcon.png</PackageIcon>
 	<PackageLicenseExpression>MIT</PackageLicenseExpression>
+	<Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
   <ItemGroup>

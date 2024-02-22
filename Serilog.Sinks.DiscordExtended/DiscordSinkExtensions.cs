@@ -1,0 +1,18 @@
+using Serilog.Configuration;
+using Serilog.Events;
+
+namespace Serilog.Sinks.DiscordExtended
+{
+    public static class DiscordSinkExtenstions
+    {
+        public static LoggerConfiguration Discord(this LoggerSinkConfiguration loggerConfiguration,
+                                                  ulong webhookId,
+                                                  string webhookToken,
+                                                  IFormatProvider formatProvider = null,
+                                                  LogEventLevel restrictedToMinimumLevel = LogEventLevel.Verbose) =>
+            loggerConfiguration.Sink(new DiscordSink(formatProvider,
+                                                     webhookId,
+                                                     webhookToken,
+                                                     restrictedToMinimumLevel));
+    }
+}

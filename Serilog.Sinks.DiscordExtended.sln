@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31112.23
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Serilog.Sinks.DiscordExtended", "Serilog.Sinks.DiscordExtended.csproj", "{360611A3-82F9-491B-A153-F952692E1ACA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Serilog.Sinks.DiscordExtended", "Serilog.Sinks.DiscordExtended\Serilog.Sinks.DiscordExtended.csproj", "{45C05B96-560D-4694-B3A3-D9B6595623A3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{360611A3-82F9-491B-A153-F952692E1ACA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{360611A3-82F9-491B-A153-F952692E1ACA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{360611A3-82F9-491B-A153-F952692E1ACA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{360611A3-82F9-491B-A153-F952692E1ACA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45C05B96-560D-4694-B3A3-D9B6595623A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45C05B96-560D-4694-B3A3-D9B6595623A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45C05B96-560D-4694-B3A3-D9B6595623A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45C05B96-560D-4694-B3A3-D9B6595623A3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
