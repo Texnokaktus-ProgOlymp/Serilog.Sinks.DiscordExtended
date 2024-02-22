@@ -5,7 +5,7 @@ using Serilog.Events;
 
 namespace Serilog.Sinks.DiscordExtended
 {
-    public class DiscordSink(IFormatProvider formatProvider,
+    public class DiscordSink(IFormatProvider? formatProvider,
                              ulong webhookId,
                              string webhookToken,
                              LogEventLevel restrictedToMinimumLevel = LogEventLevel.Information) : ILogEventSink

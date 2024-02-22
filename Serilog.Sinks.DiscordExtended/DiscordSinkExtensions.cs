@@ -8,7 +8,7 @@ namespace Serilog.Sinks.DiscordExtended
         public static LoggerConfiguration Discord(this LoggerSinkConfiguration loggerConfiguration,
                                                   ulong webhookId,
                                                   string webhookToken,
-                                                  IFormatProvider formatProvider = null,
+                                                  IFormatProvider? formatProvider = null,
                                                   LogEventLevel restrictedToMinimumLevel = LogEventLevel.Verbose) =>
             loggerConfiguration.Sink(new DiscordSink(formatProvider,
                                                      webhookId,
