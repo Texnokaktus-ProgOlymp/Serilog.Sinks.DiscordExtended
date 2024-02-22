@@ -5,25 +5,11 @@ using Serilog.Events;
 
 namespace Serilog.Sinks.DiscordExtended
 {
-    public class DiscordSink : ILogEventSink
+    public class DiscordSink(IFormatProvider formatProvider,
+                             ulong webhookId,
+                             string webhookToken,
+                             LogEventLevel restrictedToMinimumLevel = LogEventLevel.Information) : ILogEventSink
     {
-        private readonly IFormatProvider _formatProvider;
-        private readonly UInt64 _webhookId;
-        private readonly string _webhookToken;
-        private readonly LogEventLevel _restrictedToMinimumLevel;
-
-        public DiscordSink(
-            IFormatProvider formatProvider,
-            UInt64 webhookId,
-            string webhookToken,
-            LogEventLevel restrictedToMinimumLevel = LogEventLevel.Information)
-        {
-            _formatProvider = formatProvider;
-            _webhookId = webhookId;
-            _webhookToken = webhookToken;
-            _restrictedToMinimumLevel = restrictedToMinimumLevel;
-        }
-
         public void Emit(LogEvent logEvent)
         {
             SendMessage(logEvent);
@@ -31,11 +17,11 @@ namespace Serilog.Sinks.DiscordExtended
 
         private void SendMessage(LogEvent logEvent)
         {
-            if (!ShouldLogMessage(_restrictedToMinimumLevel, logEvent.Level))
+            if (!ShouldLogMessage(restrictedToMinimumLevel, logEvent.Level))
                 return;
 
             var embedBuilder = new EmbedBuilder();
-            var webHook = new DiscordWebhookClient(_webhookId, _webhookToken);
+            var webHook = new DiscordWebhookClient(webhookId, webhookToken);
 
             try
             {
@@ -57,7 +43,7 @@ namespace Serilog.Sinks.DiscordExtended
                 }
                 else
                 {
-                    var message = logEvent.RenderMessage(_formatProvider);
+                    var message = logEvent.RenderMessage(formatProvider);
 
                     message = FormatMessage(message, 240);
 
