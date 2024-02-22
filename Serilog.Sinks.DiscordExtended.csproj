@@ -2,14 +2,14 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <Authors>Abolfazl Edgelolli</Authors>
+    <Authors>Abolfazl Edgelolli,kav128</Authors>
     <Version>1.2.0</Version>
-    <Company>Serilog Contrib</Company>
-    <Product>Serilog Discord Sink</Product>
-    <NeutralLanguage>aa</NeutralLanguage>
-    <PackageDescription>Serilog sink for Discord.</PackageDescription>
-    <RepositoryUrl>https://github.com/AblEdge/Serilog-Sinks-Discrod</RepositoryUrl>
-    <PackageProjectUrl>https://github.com/serilog-contrib/Serilog-Sinks-Discord</PackageProjectUrl>
+    <Company>Texnokaktus ProgOlymp</Company>
+    <Product>Serilog Discord Extended Sink</Product>
+    <NeutralLanguage>en</NeutralLanguage>
+    <PackageDescription>Extended Serilog sink for Discord.</PackageDescription>
+    <RepositoryUrl>https://github.com/Texnokaktus-ProgOlymp/Serilog.Sinks.DiscordExtended</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/Texnokaktus-ProgOlymp/Serilog.Sinks.DiscordExtended</PackageProjectUrl>
     <PackageIcon>SinkIcon.png</PackageIcon>
 	<PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
