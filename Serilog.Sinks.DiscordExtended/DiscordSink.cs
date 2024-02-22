@@ -110,9 +110,8 @@ namespace Serilog.Sinks.DiscordExtended
             return message;
         }
 
-        private static bool ShouldLogMessage(
-            LogEventLevel minimumLogEventLevel,
-            LogEventLevel messageLogEventLevel) =>
-                (int)messageLogEventLevel < (int)minimumLogEventLevel ? false : true;
+        private static bool ShouldLogMessage(LogEventLevel minimumLogEventLevel,
+                                             LogEventLevel messageLogEventLevel) =>
+            (int)messageLogEventLevel >= (int)minimumLogEventLevel;
     }
 }
