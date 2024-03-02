@@ -11,6 +11,8 @@ namespace Serilog.Sinks.DiscordExtended
                              LogEventLevel restrictedToMinimumLevel = LogEventLevel.Information,
                              bool includeProperties = false) : ILogEventSink
     {
+        private const int MaxFieldLength = 1000;
+
         public void Emit(LogEvent logEvent)
         {
             if (!ShouldLogMessage(restrictedToMinimumLevel, logEvent.Level))
@@ -22,28 +24,17 @@ namespace Serilog.Sinks.DiscordExtended
             try
             {
                 if (logEvent.Exception is { } exception)
-                {
-                    embedBuilder.Color = new Color(255, 0, 0);
-                    embedBuilder.AddField("Exception Type:", $"```{exception.GetType().FullName}```");
-
-                    var message = FormatMessage(exception.Message, 1000);
-                    embedBuilder.AddField("Exception Message:", message);
-
-                    if (exception.StackTrace is not null)
-                    {
-                        var stackTrace = FormatMessage(exception.StackTrace, 1000);
-                        embedBuilder.AddField("Exception StackTrace:", stackTrace);
-                    }
-                }
+                    AddExceptionToEmbedBuilder(embedBuilder, exception);
                 else
-                {
                     embedBuilder.Description = FormatMessage(logEvent.RenderMessage(formatProvider), 240);
-                }
 
                 (embedBuilder.Title, embedBuilder.Color) = GetEmbedLevel(logEvent.Level);
                 
                 if (includeProperties)
-                    foreach (var (key, value) in logEvent.Properties) embedBuilder.AddField(key, value);
+                {
+                    foreach (var (key, value) in logEvent.Properties)
+                        embedBuilder.AddField(key, FormatMessage(value.ToString(), MaxFieldLength));
+                }
 
                 webHook.SendMessageAsync(null, false, [embedBuilder.Build()])
                        .GetAwaiter()
@@ -82,5 +73,29 @@ namespace Serilog.Sinks.DiscordExtended
         private static bool ShouldLogMessage(LogEventLevel minimumLogEventLevel,
                                              LogEventLevel messageLogEventLevel) =>
             (int)messageLogEventLevel >= (int)minimumLogEventLevel;
+
+        private static void AddExceptionToEmbedBuilder(EmbedBuilder embedBuilder, Exception exception)
+        {
+            var isInner = false;
+            while (true)
+            {
+                var type = $"```{exception.GetType().FullName}```";
+                embedBuilder.AddField(isInner ? "Inner Exception Type:" : "Exception Type:", type);
+
+                var message = FormatMessage(exception.Message, MaxFieldLength);
+                embedBuilder.AddField(isInner ? "Inner Exception Message:" : "Exception Message:", message);
+
+                if (exception.StackTrace is not null)
+                {
+                    var stackTrace = FormatMessage(exception.StackTrace, MaxFieldLength);
+                    embedBuilder.AddField(isInner ? "Inner Exception StackTrace:" : "Exception StackTrace:", stackTrace);
+                }
+
+                if (exception.InnerException is not { } innerException) break;
+
+                exception = innerException;
+                isInner = true;
+            }
+        }
     }
 }
